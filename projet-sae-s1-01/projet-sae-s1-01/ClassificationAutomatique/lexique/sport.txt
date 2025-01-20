@@ -1,0 +1,11 @@
+Sport:3
+match:3
+joueur:2
+coupe:3
+JO:2
+Score:2
+Domicile:1
+Champions:3
+Sacre:1
+football:3
+jeux olympiques:3
