@@ -2,4 +2,4 @@ produire:2
 economie:3
 coût:1
 %:2
-emploie:1 
+emploie:1

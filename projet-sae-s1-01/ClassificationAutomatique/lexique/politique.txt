@@ -5,4 +5,4 @@ république:2
 ministre:3
 gauche:3
 assemblée:2
-macron:3 
+macron:3

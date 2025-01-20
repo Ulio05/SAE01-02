@@ -1,7 +1,0 @@
-culture:3
-cinema:3
-film:3
-sortie:1
-roman:2
-guerre:1
-adaptations:2 

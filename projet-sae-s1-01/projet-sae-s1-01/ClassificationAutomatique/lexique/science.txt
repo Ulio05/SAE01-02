@@ -1,8 +1,0 @@
-contraception:2
-laboratoire:3
-sciences:3
-maladie:1
-spatiale:3
-découverte:3
-scientifiques:3
-science:3 

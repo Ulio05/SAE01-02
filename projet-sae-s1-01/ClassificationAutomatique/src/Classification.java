@@ -1,7 +1,9 @@
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Classification {
@@ -42,6 +44,22 @@ public class Classification {
 
 
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+        String res = "";
+        for(int i = 0; i<depeches.size();i++){
+            ArrayList<PaireChaineEntier> listePaires = new ArrayList<>();
+            for (int j = 0; j<categories.size();j++){
+                listePaires.add(new PaireChaineEntier(categories.get(j).getNom(),categories.get(j).score(depeches.get(i))));
+            }
+            res += depeches.get(i).getId() + " : " + UtilitairePaireChaineEntier.chaineMax(listePaires) + '\n';
+        }
+
+        try {
+            FileWriter file = new FileWriter(nomFichier);
+            file.write(res);
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -68,12 +86,33 @@ public class Classification {
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
 
-        for (int i = 0; i < depeches.size(); i++) {
+        /*for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
+        }*/
+        Categorie sport = new Categorie("sport");
+        sport.initLexique("lexique/sport.txt");
+//        for (int i = 0; i < cate.getLexique().size(); i++) {
+//            System.out.println(cate.getLexique().get(i));
+//        }
+//        Scanner lec = new Scanner(System.in);
+//        System.out.print("Saisissez un mot : ");
+//        String str = lec.nextLine();
+//        System.out.println(UtilitairePaireChaineEntier.entierPourChaine(sport.getLexique(),str));
+//        System.out.println(sport.score(depeches.getLast()));
+        ArrayList<String> theme = new ArrayList<>();
+        theme.add("sport");
+        theme.add("economie");
+        theme.add("culture");
+        theme.add("politique");
+        theme.add("science");
+        ArrayList<Categorie> cate = new ArrayList<Categorie>();
+        ArrayList<PaireChaineEntier> score_cate = new ArrayList<PaireChaineEntier>();
+        for (int i = 0; i<theme.size();i++){
+            cate.add(new Categorie(theme.get(i)));
+            cate.get(i).initLexique("lexique/" + theme.get(i) + ".txt");
+            score_cate.add(new PaireChaineEntier(theme.get(i),cate.get(i).score(depeches.get(0))));
         }
-        Categorie cate = new Categorie("lexique/sport.txt");
-        Categorie.initLexique("");
-        System.out.println(cate.getLexique());
+        System.out.println(UtilitairePaireChaineEntier.chaineMax(score_cate));
 
     }
 

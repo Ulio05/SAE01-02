@@ -39,7 +39,6 @@ public class Categorie {
                 int entier = Integer.parseInt(subligne[1]);
                 PaireChaineEntier PaireChaine = new PaireChaineEntier(subligne[0],entier);
                 lexique.add(PaireChaine);
-                ligne = scanner.nextLine();
             }
             scanner.close();
         } catch (IOException e) {
@@ -50,7 +49,19 @@ public class Categorie {
 
     //calcul du score d'une dépêche pour la catégorie
     public int score(Depeche d) {
-        return 0;
+        int score = 0;
+        for (int i = 0; i<d.getMots().size();i++){
+            int j = 0;
+            boolean trouv = true;
+            while(j<lexique.size()&&trouv){
+                if(d.getMots().get(i).toLowerCase().compareTo(lexique.get(j).getChaine())==0){
+                    score += lexique.get(j).getEntiers();
+                    trouv = false;
+                }
+                j++;
+            }
+        }
+        return score;
     }
 
 

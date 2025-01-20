@@ -21,4 +21,8 @@ public class PaireChaineEntier {
         chaine=str;
         entiers = ent;
     }
+    @Override
+    public String toString(){
+        return chaine + " : " +entiers;
+    }
 }
