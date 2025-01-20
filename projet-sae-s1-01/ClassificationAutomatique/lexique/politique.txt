@@ -1,0 +1,8 @@
+politique:3
+rassemblement:3
+guerres:1
+république:2
+ministre:3
+gauche:3
+assemblée:2
+macron:3 
