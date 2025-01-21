@@ -172,12 +172,15 @@ public class Classification {
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         for (Depeche dep: depeches){
             for(String chaine : dep.getMots()){
-                int i = 0;
-                while(dictionnaire.get(i).getChaine().compareTo(chaine)!=0){i++;}
-                if(dep.getCategorie().compareTo(categorie)==0)
-                    dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
-                else
-                    dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
+                for (int i = 0; i<dictionnaire.size();i++){
+                    if (dictionnaire.get(i).getChaine().compareToIgnoreCase(chaine)==0){
+                        if(dep.getCategorie().compareToIgnoreCase(categorie)==0)
+                            dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
+                        else
+                            dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
+                    }
+                }
+
             }
         }
     }
@@ -220,7 +223,7 @@ public class Classification {
             depeches.get(i).afficher();
         }
         Categorie sport = new Categorie("sport");
-        sport.initLexique("lexique/sport.txt");*/
+        sport.initLexique("lexique/sport.txt");
 //        for (int i = 0; i < cate.getLexique().size(); i++) {
 //            System.out.println(cate.getLexique().get(i));
 //        }
@@ -228,19 +231,22 @@ public class Classification {
 //        System.out.print("Saisissez un mot : ");
 //        String str = lec.nextLine();
 //        System.out.println(UtilitairePaireChaineEntier.entierPourChaine(sport.getLexique(),str));
-//        System.out.println(sport.score(depeches.getLast()));
+//        System.out.println(sport.score(depeches.getLast()));*/
         ArrayList<PaireChaineEntier> theme = new ArrayList<>();
         theme.add(new PaireChaineEntier("sport",0));
         theme.add(new PaireChaineEntier("economie",0));
         theme.add(new PaireChaineEntier("culture",0));
         theme.add(new PaireChaineEntier("politique",0));
-        theme.add(new PaireChaineEntier("science",0));
+        theme.add(new PaireChaineEntier("science",0));/*
         ArrayList<Categorie> cate = new ArrayList<Categorie>();
         for (int i = 0; i<theme.size();i++){
             cate.add(new Categorie(theme.get(i).getChaine()));
             cate.get(i).initLexique("lexique/" + theme.get(i).getChaine() + ".txt");
         }
-        classementDepeches(depeches,cate,"./resultat.txt");
+        classementDepeches(depeches,cate,"./resultat.txt");*/
+        for (int i = 0; i<theme.size();i++){
+            generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
+        }
     }
 
 
