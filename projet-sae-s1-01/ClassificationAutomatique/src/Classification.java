@@ -144,59 +144,39 @@ public class Classification {
 
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
-        ArrayList<PaireChaineEntier> dictionnaire = new ArrayList<>();
-        for (Depeche dep: depeches){
-            for(String chaine : dep.getMots()){
-                int i = 0;
-                while(dictionnaire.get(i).getChaine().compareTo(chaine)!=0){i++;}
-                if(dep.getCategorie().compareTo(categorie)==0)
-                    dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
-                else
-                    dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
+        ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
+        for (int i =0; i<depeches.size();i++) {
+            if (categorie.compareTo(depeches.get(i).getCategorie().toLowerCase())==0) {
+                ArrayList<String> mots = new ArrayList<>(depeches.get(i).getMots());
+                for (int j = 0; j < mots.size(); j++) {
+                    PaireChaineEntier test = new PaireChaineEntier(mots.get(j), 0);
+                    boolean existeDeja = false;
+                    int k = 0;
+                    while (k<resultat.size()) {
+                        if (resultat.get(k).getChaine().equals(mots.get(j))) {
+                            existeDeja = true;
+                        }
+                        k++;
+                    }
+
+                    // Ajouter la paire uniquement si le mot est nouveau
+                    if (!existeDeja) {
+                        resultat.add(test);
+                    }
+                }
             }
         }
-        return dictionnaire;
-
+        return resultat;
     }
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
-        for (Depeche dep: depeches){
-            for(String chaine : dep.getMots()){
-                int i = 0;
-                while(dictionnaire.get(i).getChaine().compareTo(chaine)!=0){i++;}
-                if(dep.getCategorie().compareTo(categorie)==0)
-                    dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
-                else
-                    dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
-            }
-        }
     }
 
     public static int poidsPourScore(int score) {
-        if (score>4){
-            return 3;
-        } else if (score>1) {
-            return 2;
-        }else// if( score == 1)
-            return 1;
-//        else
-//            return 0;
+        return 0;
     }
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
-        String res = "";
-        ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches,categorie);
-        calculScores(depeches,categorie,dictionnaire);
-        for (PaireChaineEntier paire : dictionnaire){
-            res += paire.getChaine() + ":" + paire.getEntiers()+'\n';
-        }
-        try {
-            FileWriter file = new FileWriter(nomFichier);
-            file.write(res);
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -210,7 +190,7 @@ public class Classification {
             depeches.get(i).afficher();
         }
         Categorie sport = new Categorie("sport");
-        sport.initLexique("lexique/sport.txt");
+        sport.initLexique("lexique/sport.txt");*/
 //        for (int i = 0; i < cate.getLexique().size(); i++) {
 //            System.out.println(cate.getLexique().get(i));
 //        }
@@ -230,7 +210,7 @@ public class Classification {
             cate.add(new Categorie(theme.get(i).getChaine()));
             cate.get(i).initLexique("lexique/" + theme.get(i).getChaine() + ".txt");
         }
-        classementDepeches(depeches,cate,"./resultat.txt");*/
+        classementDepeches(depeches,cate,"./resultat.txt");
     }
 
 
