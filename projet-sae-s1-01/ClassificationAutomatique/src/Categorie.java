@@ -41,6 +41,7 @@ public class Categorie {
                 lexique.add(PaireChaine);
             }
             scanner.close();
+            file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
