@@ -117,15 +117,16 @@ public class Classification {
 
             // Si la catégorie prédite est correcte, incrémenter le compteur des corrects
             if (chaine_max.compareTo(depeches.get(i).getCategorie().toLowerCase()) == 0) {
-                correct.set(k, new PaireChaineEntier(correct.get(k).getChaine(), correct.get(k).getEntiers() + 1));
+                correct.get(k).setEntiers(correct.get(k).getEntiers() + 1);
             }
         }
 
         // Calcul des pourcentages et génération du rapport
         for (int l = 0; l < categories.size(); l++) {
             // Calcul du pourcentage en évitant la division entière
-            double pourcentage = (double) correct.get(l).getEntiers() / nb_total.get(l) * 100;
+            double pourcentage = (double) correct.get(l).getEntiers() / nb_total.get(l)  * 100;
             res += categories.get(l).getNom() + ": " + String.format("%.2f", pourcentage) + "%\n";
+            correct.get(l).setEntiers((int)pourcentage);
         }
 
         // Calcul de la moyenne des pourcentages
@@ -190,18 +191,19 @@ public class Classification {
             return 3;
         } else if (score>1) {
             return 2;
-        }else// if( score == 1)
+        }else if( score == 1)
             return 1;
-//        else
-//            return 0;
+        else
+            return 0;
     }
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
         String res = "";
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches,categorie);
         calculScores(depeches,categorie,dictionnaire);
-        for (PaireChaineEntier paire : dictionnaire){
-            res += paire.getChaine() + ":" + paire.getEntiers()+'\n';
+        res += dictionnaire.getFirst().getChaine() + ":"+ dictionnaire.getFirst().getEntiers();
+        for (int i = 1;i< dictionnaire.size();i++){
+            res += '\n' + dictionnaire.get(i).getChaine() + ":" + poidsPourScore(dictionnaire.get(i).getEntiers());
         }
         try {
             FileWriter file = new FileWriter(nomFichier);
@@ -217,7 +219,7 @@ public class Classification {
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
-        ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+        ArrayList<Depeche> depeches = lectureDepeches("./test.txt");
 
         /*for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
@@ -237,16 +239,19 @@ public class Classification {
         theme.add(new PaireChaineEntier("economie",0));
         theme.add(new PaireChaineEntier("culture",0));
         theme.add(new PaireChaineEntier("politique",0));
-        theme.add(new PaireChaineEntier("science",0));/*
-        ArrayList<Categorie> cate = new ArrayList<Categorie>();
-        for (int i = 0; i<theme.size();i++){
-            cate.add(new Categorie(theme.get(i).getChaine()));
-            cate.get(i).initLexique("lexique/" + theme.get(i).getChaine() + ".txt");
-        }
-        classementDepeches(depeches,cate,"./resultat.txt");*/
+        theme.add(new PaireChaineEntier("sciences",0));
+
+
+
         for (int i = 0; i<theme.size();i++){
             generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
         }
+        ArrayList<Categorie> cate = new ArrayList<Categorie>();
+        for (int i = 0; i<theme.size();i++){
+            cate.add(new Categorie(theme.get(i).getChaine()));
+            cate.get(i).initLexique("lexiqueIA/" + theme.get(i).getChaine() + ".txt");
+        }
+        classementDepeches(depeches,cate,"./resultatIA.txt");
     }
 
 

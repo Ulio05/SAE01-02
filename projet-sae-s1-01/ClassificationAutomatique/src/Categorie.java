@@ -37,6 +37,12 @@ public class Categorie {
                 String ligne = scanner.nextLine();
                 String[] subligne = ligne.split(":");
                 int entier = Integer.parseInt(subligne[1]);
+                /*try {
+                    entier = Integer.parseInt(subligne[1]);
+                }catch (NumberFormatException e ){
+                    entier = 0;
+                    System.out.println("Erreur dans " + nomFichier + " à l'endroit" + subligne[0] + " " + subligne[1]);
+                }*/
                 PaireChaineEntier PaireChaine = new PaireChaineEntier(subligne[0],entier);
                 lexique.add(PaireChaine);
             }
