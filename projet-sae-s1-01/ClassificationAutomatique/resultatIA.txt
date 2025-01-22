@@ -1,14 +1,14 @@
-001 : sciences
+001 : economie
 002 : sciences
-003 : sciences
-004 : sciences
-005 : sciences
+003 : economie
+004 : economie
+005 : economie
 006 : sciences
 007 : sciences
 008 : sciences
-009 : sciences
+009 : culture
 010 : sciences
-011 : sciences
+011 : culture
 012 : sciences
 013 : sciences
 014 : sciences
@@ -16,16 +16,16 @@
 016 : sciences
 017 : sciences
 018 : sciences
-019 : sport
+019 : sciences
 020 : sciences
 021 : sciences
 022 : sciences
 023 : sciences
 024 : sciences
-025 : culture
+025 : sciences
 026 : sciences
 027 : sciences
-028 : sport
+028 : sciences
 029 : sciences
 030 : sciences
 031 : sciences
@@ -37,12 +37,12 @@
 037 : sciences
 038 : sciences
 039 : sciences
-040 : sciences
+040 : sport
 041 : sciences
 042 : sciences
 043 : sciences
 044 : sciences
-045 : culture
+045 : sciences
 046 : sciences
 047 : sciences
 048 : sciences
@@ -65,7 +65,7 @@
 065 : sciences
 066 : sciences
 067 : sciences
-068 : culture
+068 : sciences
 069 : sciences
 070 : sciences
 071 : sciences
@@ -102,11 +102,11 @@
 102 : culture
 103 : culture
 104 : culture
-105 : sport
+105 : culture
 106 : culture
 107 : culture
 108 : culture
-109 : sport
+109 : culture
 110 : culture
 111 : culture
 112 : culture
@@ -164,7 +164,7 @@
 164 : culture
 165 : culture
 166 : culture
-167 : sport
+167 : culture
 168 : culture
 169 : culture
 170 : culture
@@ -217,7 +217,7 @@
 217 : economie
 218 : economie
 219 : economie
-220 : sport
+220 : economie
 221 : economie
 222 : economie
 223 : economie
@@ -232,7 +232,7 @@
 232 : economie
 233 : economie
 234 : economie
-235 : politique
+235 : economie
 236 : economie
 237 : economie
 238 : economie
@@ -254,7 +254,7 @@
 254 : economie
 255 : economie
 256 : economie
-257 : economie
+257 : politique
 258 : economie
 259 : economie
 260 : economie
@@ -262,10 +262,10 @@
 262 : economie
 263 : economie
 264 : economie
-265 : sport
-266 : economie
+265 : economie
+266 : politique
 267 : economie
-268 : economie
+268 : politique
 269 : economie
 270 : economie
 271 : economie
@@ -278,13 +278,13 @@
 278 : economie
 279 : economie
 280 : economie
-281 : economie
+281 : sport
 282 : economie
 283 : economie
 284 : economie
 285 : economie
 286 : economie
-287 : economie
+287 : politique
 288 : economie
 289 : economie
 290 : economie
@@ -294,12 +294,12 @@
 294 : economie
 295 : economie
 296 : economie
-297 : politique
+297 : economie
 298 : economie
 299 : economie
 300 : economie
 301 : politique
-302 : culture
+302 : politique
 303 : politique
 304 : politique
 305 : politique
@@ -311,26 +311,26 @@
 311 : politique
 312 : politique
 313 : economie
-314 : economie
+314 : politique
 315 : politique
 316 : economie
 317 : politique
 318 : politique
-319 : politique
+319 : culture
 320 : politique
 321 : politique
 322 : politique
-323 : economie
+323 : politique
 324 : politique
-325 : politique
-326 : economie
+325 : economie
+326 : politique
 327 : politique
 328 : politique
 329 : politique
-330 : politique
+330 : economie
 331 : politique
 332 : politique
-333 : economie
+333 : politique
 334 : politique
 335 : politique
 336 : politique
@@ -340,16 +340,16 @@
 340 : politique
 341 : politique
 342 : politique
-343 : politique
+343 : economie
 344 : politique
 345 : politique
 346 : politique
-347 : politique
-348 : politique
+347 : economie
+348 : economie
 349 : politique
-350 : politique
+350 : economie
 351 : politique
-352 : politique
+352 : economie
 353 : politique
 354 : politique
 355 : politique
@@ -362,7 +362,7 @@
 362 : politique
 363 : politique
 364 : politique
-365 : economie
+365 : culture
 366 : politique
 367 : politique
 368 : politique
@@ -394,7 +394,7 @@
 394 : politique
 395 : politique
 396 : politique
-397 : politique
+397 : sport
 398 : politique
 399 : politique
 400 : politique
@@ -424,7 +424,7 @@
 424 : sport
 425 : sport
 426 : sport
-427 : sport
+427 : economie
 428 : sport
 429 : sport
 430 : sport
@@ -434,7 +434,7 @@
 434 : sport
 435 : sport
 436 : sport
-437 : culture
+437 : sport
 438 : sport
 439 : sport
 440 : sport
@@ -448,12 +448,12 @@
 448 : sport
 449 : sport
 450 : sport
-451 : culture
+451 : sport
 452 : sport
-453 : culture
+453 : sport
 454 : sport
 455 : sport
-456 : economie
+456 : sport
 457 : sport
 458 : sport
 459 : sport
@@ -463,7 +463,7 @@
 463 : sport
 464 : sport
 465 : sport
-466 : politique
+466 : sport
 467 : sport
 468 : sport
 469 : sport
@@ -498,9 +498,9 @@
 498 : sport
 499 : sport
 500 : sport
-sport: 93,14%
-economie: 92,31%
-culture: 93,27%
-politique: 96,84%
+sport: 97,06%
+economie: 87,16%
+culture: 96,15%
+politique: 95,65%
 sciences: 100,00%
-MOYENNE: 94,80%
+MOYENNE: 95,00%

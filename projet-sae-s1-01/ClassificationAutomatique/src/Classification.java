@@ -144,12 +144,9 @@ public class Classification {
 
 
 
-    public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
-        ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
-        return resultat;
-    }
 
-    /*
+
+
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
         for (int i =0; i<depeches.size();i++) {
@@ -186,8 +183,12 @@ public class Classification {
         }
         return resultat;
     }
-     */
-    //public static void InitDicoScores(ArrayList<Depeche> depeches, String categorie){}
+
+    /*public static void InitDicoScores(ArrayList<Depeche> depeches, String categorie){
+        for(Depeche dep : depeches){
+            for (String chaine: )
+        }
+    }*/
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         for (Depeche dep: depeches){
@@ -233,6 +234,7 @@ public class Classification {
         }
         try {
             FileWriter file = new FileWriter(nomFichier);
+            //File file = new FileInputStream(nomFichier);
             file.write(res);
             file.close();
         } catch (IOException e) {
@@ -246,6 +248,7 @@ public class Classification {
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
+        ArrayList<Depeche> test = lectureDepeches("./test.txt");
 
         /*for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
@@ -271,13 +274,14 @@ public class Classification {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i<theme.size();i++){
             generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
+            generationLexique(test,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
         }
         ArrayList<Categorie> cate = new ArrayList<Categorie>();
         for (int i = 0; i<theme.size();i++){
             cate.add(new Categorie(theme.get(i).getChaine()));
             cate.get(i).initLexique("lexiqueIA/" + theme.get(i).getChaine() + ".txt");
         }
-        classementDepeches(depeches,cate,"./resultatIA.txt");
+        classementDepeches(test,cate,"./resultatIA.txt");
         long endTime = System.currentTimeMillis();
         System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + " ms");
     }

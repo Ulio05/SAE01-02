@@ -72,12 +72,17 @@ public class Categorie {
     }
     public int scoreKNN(Depeche d) {
         int score = 0;
-        for (int i = 0; i<d.getMots().size();i++){
+        for (int i = 2; i<d.getMots().size();i++){
             int j = 0;
             boolean trouv = true;
             while(j<lexique.size()&&trouv){
-                //if(d.getMots().get(i).toLowerCase().compareTo(lexique.get(j).getChaine())==0){
+                if(d.getMots().get(i).toLowerCase().compareTo(lexique.get(j).getChaine())==0) {
+                    if(score<2){
 
+                    }else
+                        score += lexique.get(j).getEntiers();
+                }
+                trouv = false;
                 j++;
             }
         }
