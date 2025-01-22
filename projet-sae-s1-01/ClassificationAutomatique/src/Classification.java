@@ -149,6 +149,17 @@ public class Classification {
         for (int i =0; i<depeches.size();i++) {
             if (categorie.compareTo(depeches.get(i).getCategorie().toLowerCase())==0) {
                 ArrayList<String> mots = new ArrayList<>(depeches.get(i).getMots());
+                for (int z =0; z<mots.size()-1;z++){
+                    if (mots.get(z).equals(mots.get(z+1))){
+                    }else {
+                        var temp= mots.get(z);
+                        mots.set(z,mots.get(z+1));
+                        mots.set(z+1,mots.get(z));
+
+
+
+                    }
+                }
                 for (int j = 0; j < mots.size(); j++) {
                     PaireChaineEntier test = new PaireChaineEntier(mots.get(j), 0);
                     boolean existeDeja = false;
@@ -172,29 +183,36 @@ public class Classification {
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         for (Depeche dep: depeches){
-            for(String chaine : dep.getMots()){
-                for (int i = 0; i<dictionnaire.size();i++){
-                    if (dictionnaire.get(i).getChaine().compareToIgnoreCase(chaine)==0){
-                        if(dep.getCategorie().compareToIgnoreCase(categorie)==0)
-                            dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
-                        else
-                            dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
-                    }
-                }
 
+            for(String chaine : dep.getMots()){
+                int inf = 0, sup = dep.getMots().size(),m;
+                boolean b = false;
+                while(inf<sup && !b){
+                    m = (inf + sup)/2;
+                    if (dictionnaire.get(m).getChaine().compareToIgnoreCase(chaine)==0){
+                        if(dep.getCategorie().compareToIgnoreCase(categorie)==0)
+                            dictionnaire.get(m).setEntiers(dictionnaire.get(m).getEntiers()+1);
+                        else
+                            dictionnaire.get(m).setEntiers(dictionnaire.get(m).getEntiers()-1);
+                        b=true;
+                    }else if (dictionnaire.get(m).getChaine().compareToIgnoreCase(chaine)<0)
+                        inf = m+1;
+                    else
+                        sup = m -1;
+                }
             }
         }
     }
 
     public static int poidsPourScore(int score) {
-        if (score>4){
+        if (score>5){
             return 3;
-        } else if (score>1) {
+        } else if (score>2) {
             return 2;
-        }else if( score == 1)
+        }else //if( score == 1)
             return 1;
-        else
-            return 0;
+//        else
+//            return 0;
     }
 
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {

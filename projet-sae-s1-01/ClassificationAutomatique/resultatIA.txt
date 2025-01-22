@@ -1,8 +1,8 @@
-001 : sciences
+001 : economie
 002 : sciences
 003 : economie
 004 : economie
-005 : sciences
+005 : economie
 006 : sciences
 007 : sciences
 008 : sciences
@@ -202,7 +202,7 @@
 202 : economie
 203 : economie
 204 : economie
-205 : sciences
+205 : economie
 206 : economie
 207 : economie
 208 : economie
@@ -222,7 +222,7 @@
 222 : economie
 223 : economie
 224 : economie
-225 : sciences
+225 : economie
 226 : economie
 227 : economie
 228 : economie
@@ -254,7 +254,7 @@
 254 : economie
 255 : economie
 256 : economie
-257 : economie
+257 : politique
 258 : economie
 259 : economie
 260 : economie
@@ -263,9 +263,9 @@
 263 : economie
 264 : economie
 265 : economie
-266 : economie
+266 : politique
 267 : economie
-268 : economie
+268 : politique
 269 : economie
 270 : economie
 271 : economie
@@ -283,8 +283,8 @@
 283 : economie
 284 : economie
 285 : economie
-286 : sport
-287 : economie
+286 : economie
+287 : politique
 288 : economie
 289 : economie
 290 : economie
@@ -325,7 +325,7 @@
 325 : economie
 326 : politique
 327 : politique
-328 : economie
+328 : politique
 329 : politique
 330 : economie
 331 : politique
@@ -337,11 +337,11 @@
 337 : politique
 338 : politique
 339 : politique
-340 : economie
+340 : politique
 341 : politique
 342 : politique
 343 : economie
-344 : economie
+344 : politique
 345 : politique
 346 : politique
 347 : economie
@@ -353,7 +353,7 @@
 353 : politique
 354 : politique
 355 : politique
-356 : economie
+356 : politique
 357 : politique
 358 : politique
 359 : politique
@@ -424,7 +424,7 @@
 424 : sport
 425 : sport
 426 : sport
-427 : sport
+427 : economie
 428 : sport
 429 : sport
 430 : sport
@@ -498,9 +498,9 @@
 498 : sport
 499 : sport
 500 : sport
-sport: 96,15%
-economie: 86,49%
+sport: 97,06%
+economie: 87,16%
 culture: 96,15%
-politique: 100,00%
-sciences: 97,94%
+politique: 95,65%
+sciences: 100,00%
 MOYENNE: 95,00%
