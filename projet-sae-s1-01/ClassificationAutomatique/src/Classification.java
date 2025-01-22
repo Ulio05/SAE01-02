@@ -146,6 +146,12 @@ public class Classification {
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
+        return resultat;
+    }
+
+    /*
+    public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
+        ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
         for (int i =0; i<depeches.size();i++) {
             if (categorie.compareTo(depeches.get(i).getCategorie().toLowerCase())==0) {
                 ArrayList<String> mots = new ArrayList<>(depeches.get(i).getMots());
@@ -180,6 +186,8 @@ public class Classification {
         }
         return resultat;
     }
+     */
+    //public static void InitDicoScores(ArrayList<Depeche> depeches, String categorie){}
 
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         for (Depeche dep: depeches){
@@ -237,7 +245,7 @@ public class Classification {
 
         //Chargement des dépêches en mémoire
         System.out.println("chargement des dépêches");
-        ArrayList<Depeche> depeches = lectureDepeches("./test.txt");
+        ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
 
         /*for (int i = 0; i < depeches.size(); i++) {
             depeches.get(i).afficher();
@@ -260,7 +268,7 @@ public class Classification {
         theme.add(new PaireChaineEntier("sciences",0));
 
 
-
+        long startTime = System.currentTimeMillis();
         for (int i = 0; i<theme.size();i++){
             generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
         }
@@ -270,6 +278,8 @@ public class Classification {
             cate.get(i).initLexique("lexiqueIA/" + theme.get(i).getChaine() + ".txt");
         }
         classementDepeches(depeches,cate,"./resultatIA.txt");
+        long endTime = System.currentTimeMillis();
+        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + " ms");
     }
 
 
