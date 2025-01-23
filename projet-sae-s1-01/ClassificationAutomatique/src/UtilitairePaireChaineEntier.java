@@ -13,6 +13,23 @@ public class UtilitairePaireChaineEntier {
         }
         return res;
     }
+    public static int indicePourChaineOpti(ArrayList<PaireChaineEntier> listePaires, String chaine) {
+        int inf = 0, sup = listePaires.size(),m =0;
+        boolean b = false;
+        while(inf<sup && !b) {
+            m = (inf + sup) / 2;
+            if (listePaires.get(m).getChaine().compareToIgnoreCase(chaine) == 0)
+                b = true;
+            else if (listePaires.get(m).getChaine().compareToIgnoreCase(chaine) < 0)
+                inf = m + 1;
+            else
+                sup = m - 1;
+        }
+        if (b)
+            return m;
+        else
+            return -1;
+    }
 
     public static int entierPourChaine(ArrayList<PaireChaineEntier> listePaires, String chaine) {
         int res = 0;

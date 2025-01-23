@@ -149,40 +149,79 @@ public class Classification {
 
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
-        for (int i =0; i<depeches.size();i++) {
-            if (categorie.compareTo(depeches.get(i).getCategorie().toLowerCase())==0) {
-                ArrayList<String> mots = new ArrayList<>(depeches.get(i).getMots());
-                for (int z =0; z<mots.size()-1;z++){
-                    if (mots.get(z).equals(mots.get(z+1))){
-                    }else {
-                        var temp= mots.get(z);
-                        mots.set(z,mots.get(z+1));
-                        mots.set(z+1,mots.get(z));
-
-
-
-                    }
-                }
-                for (int j = 0; j < mots.size(); j++) {
-                    PaireChaineEntier test = new PaireChaineEntier(mots.get(j), 0);
-                    boolean existeDeja = false;
-                    int k = 0;
-                    while (k<resultat.size()) {
-                        if (resultat.get(k).getChaine().equals(mots.get(j))) {
-                            existeDeja = true;
-                        }
-                        k++;
-                    }
-
-                    // Ajouter la paire uniquement si le mot est nouveau
-                    if (!existeDeja) {
-                        resultat.add(test);
+        for (Depeche dep : depeches) {
+            if (categorie.compareTo(dep.getCategorie().toLowerCase())==0) {
+                for (String chaine: dep.getMots()){
+                    if (UtilitairePaireChaineEntier.indicePourChaine(resultat,chaine) == -1){
+                        resultat.add(new PaireChaineEntier(chaine,0));
                     }
                 }
             }
         }
+        triFusion(resultat,0,resultat.size()-1);
         return resultat;
     }
+
+    public static ArrayList<PaireChaineEntier> initDico2(ArrayList<Depeche> depeches, String categorie) {
+        ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
+        for (Depeche dep : depeches) {
+            for (String chaine: dep.getMots()){
+                int ind = UtilitairePaireChaineEntier.indicePourChaine(resultat,chaine);
+                if (categorie.compareTo(dep.getCategorie().toLowerCase())==0) {
+                    if (ind == -1){
+                        resultat.add(new PaireChaineEntier(chaine,0));
+                    }else{
+                        resultat.get(ind).setEntiers(resultat.get(ind).getEntiers()+1);
+                    }
+                }if (ind != -1)
+                    resultat.get(ind).setEntiers(resultat.get(ind).getEntiers()+-1);
+            }
+        }
+        triFusion(resultat,0,resultat.size()-1);
+        return resultat;
+    }
+    public static void fusionTabGTabD(ArrayList<PaireChaineEntier> vInt, int inf, int m, int sup) {
+        ArrayList<PaireChaineEntier> temp = new ArrayList<>();
+        int p1 = inf, p2 = m + 1;
+
+        // Merge process
+        while (p1 <= m && p2 <= sup) {
+            if (vInt.get(p1).getChaine().compareToIgnoreCase(vInt.get(p2).getChaine()) < 0) {
+                temp.add(vInt.get(p1));
+                p1++;
+            } else {
+                temp.add(vInt.get(p2));
+                p2++;
+            }
+        }
+
+        // Add remaining elements from the left half (if any)
+        while (p1 <= m) {
+            temp.add(vInt.get(p1));
+            p1++;
+        }
+
+        // Add remaining elements from the right half (if any)
+        while (p2 <= sup) {
+            temp.add(vInt.get(p2));
+            p2++;
+        }
+
+        // Copy the sorted elements back to the original list
+        for (int i = 0; i < temp.size(); i++) {
+            vInt.set(i + inf, temp.get(i));
+        }
+    }
+
+    public static void triFusion(ArrayList<PaireChaineEntier> vInt, int inf, int sup) {
+        if (inf < sup) {
+            int m = (inf + sup) / 2;
+            triFusion(vInt, inf, m);  // Sort the left half
+            triFusion(vInt, m + 1, sup);  // Sort the right half
+            fusionTabGTabD(vInt, inf, m, sup);  // Merge the two sorted halves
+        }
+    }
+
 
     /*public static void InitDicoScores(ArrayList<Depeche> depeches, String categorie){
         for(Depeche dep : depeches){
@@ -243,6 +282,11 @@ public class Classification {
 
     }
 
+    public static ArrayList<String> découverteClasse(ArrayList<Depeche> depeches){
+        ArrayList<String> resultat = new ArrayList<>();
+        return resultat;
+    }
+
     public static void main(String[] args) {
 
         //Chargement des dépêches en mémoire
@@ -273,7 +317,7 @@ public class Classification {
 
         long startTime = System.currentTimeMillis();
         for (int i = 0; i<theme.size();i++){
-            generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
+//            generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
             generationLexique(test,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
         }
         ArrayList<Categorie> cate = new ArrayList<Categorie>();
@@ -281,9 +325,10 @@ public class Classification {
             cate.add(new Categorie(theme.get(i).getChaine()));
             cate.get(i).initLexique("lexiqueIA/" + theme.get(i).getChaine() + ".txt");
         }
-        classementDepeches(test,cate,"./resultatIA.txt");
+        classementDepeches(depeches,cate,"./resultatIA.txt");
         long endTime = System.currentTimeMillis();
         System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + " ms");
+        System.out.println(depeches.get(0).getMots().size());
     }
 
 

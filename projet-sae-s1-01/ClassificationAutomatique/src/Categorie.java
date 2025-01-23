@@ -1,4 +1,5 @@
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -70,24 +71,7 @@ public class Categorie {
         }
         return score;
     }
-    public int scoreKNN(Depeche d) {
-        int score = 0;
-        for (int i = 2; i<d.getMots().size();i++){
-            int j = 0;
-            boolean trouv = true;
-            while(j<lexique.size()&&trouv){
-                if(d.getMots().get(i).toLowerCase().compareTo(lexique.get(j).getChaine())==0) {
-                    if(score<2){
 
-                    }else
-                        score += lexique.get(j).getEntiers();
-                }
-                trouv = false;
-                j++;
-            }
-        }
-        return score;
-    }
 
 
 }
