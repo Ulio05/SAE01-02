@@ -232,30 +232,12 @@ public class Classification2 {
         System.out.println("chargement des dépêches");
         ArrayList<Depeche> depeche = lectureDepeches("./depeches.txt");
         ArrayList<Depeche> depeches2 = lectureDepeches("../autre jeu de données/depeches2.txt");
-        /*for (int i = 0; i < depeches.size(); i++) {
-            depeches.get(i).afficher();
-        }
-        Categorie sport = new Categorie("sport");
-        sport.initLexique("lexique/sport.txt");
-//        for (int i = 0; i < cate.getLexique().size(); i++) {
-//            System.out.println(cate.getLexique().get(i));
-//        }
-//        Scanner lec = new Scanner(System.in);
-//        System.out.print("Saisissez un mot : ");
-//        String str = lec.nextLine();
-//        System.out.println(UtilitairePaireChaineEntier.entierPourChaine(sport.getLexique(),str));
-//        System.out.println(sport.score(depeches.getLast()));*/
-        ArrayList<PaireChaineEntier> theme = new ArrayList<>();
-        theme.add(new PaireChaineEntier("sport",0));
-        theme.add(new PaireChaineEntier("economie",0));
-        theme.add(new PaireChaineEntier("culture",0));
-        theme.add(new PaireChaineEntier("politique",0));
-        theme.add(new PaireChaineEntier("sciences",0));
+
 
         ArrayList<Categorie> cate = InitCategorie(depeches2);
         long startTime = System.currentTimeMillis();
         for (int i = 0; i<cate.size();i++){
-            generationLexique(depeches2,cate.get(i).getNom(),"lexiqueIA/"+cate.get(i).getNom()+".txt");
+            generationLexique(depeche,cate.get(i).getNom(),"lexiqueIA/"+cate.get(i).getNom()+".txt");
         }
         for (int i = 0; i<cate.size();i++){
             cate.get(i).initLexique("lexiqueIA/" + cate.get(i).getNom() + ".txt");

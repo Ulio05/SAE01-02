@@ -5,7 +5,7 @@
 005 : economie
 006 : economie
 007 : sciences
-008 : economie
+008 : sciences
 009 : economie
 010 : economie
 011 : sciences
@@ -13,7 +13,7 @@
 013 : sciences
 014 : sciences
 015 : sport
-016 : economie
+016 : sciences
 017 : sciences
 018 : economie
 019 : sciences
@@ -27,14 +27,14 @@
 027 : economie
 028 : sport
 029 : economie
-030 : economie
+030 : sciences
 031 : sciences
 032 : economie
 033 : sciences
 034 : sciences
 035 : sciences
 036 : economie
-037 : economie
+037 : sciences
 038 : sciences
 039 : sciences
 040 : culture
@@ -45,7 +45,7 @@
 045 : sciences
 046 : sciences
 047 : sciences
-048 : economie
+048 : sciences
 049 : sciences
 050 : sciences
 051 : sport
@@ -75,8 +75,8 @@
 075 : sciences
 076 : sciences
 077 : sciences
-078 : sport
-079 : economie
+078 : sciences
+079 : sciences
 080 : sport
 081 : sciences
 082 : economie
@@ -94,7 +94,7 @@
 094 : culture
 095 : sport
 096 : culture
-097 : sport
+097 : sciences
 098 : sciences
 099 : sciences
 100 : sciences
@@ -132,7 +132,7 @@
 132 : economie
 133 : culture
 134 : sport
-135 : economie
+135 : sport
 136 : culture
 137 : culture
 138 : politique
@@ -173,7 +173,7 @@
 173 : sciences
 174 : sciences
 175 : culture
-176 : culture
+176 : sciences
 177 : culture
 178 : sport
 179 : economie
@@ -204,7 +204,7 @@
 204 : economie
 205 : economie
 206 : economie
-207 : economie
+207 : sciences
 208 : economie
 209 : sport
 210 : economie
@@ -261,7 +261,7 @@
 261 : economie
 262 : sciences
 263 : politique
-264 : economie
+264 : politique
 265 : sport
 266 : economie
 267 : economie
@@ -269,7 +269,7 @@
 269 : economie
 270 : politique
 271 : politique
-272 : economie
+272 : sciences
 273 : economie
 274 : economie
 275 : economie
@@ -325,7 +325,7 @@
 325 : politique
 326 : politique
 327 : politique
-328 : economie
+328 : politique
 329 : politique
 330 : politique
 331 : politique
@@ -334,7 +334,7 @@
 334 : politique
 335 : culture
 336 : politique
-337 : economie
+337 : politique
 338 : politique
 339 : politique
 340 : politique
@@ -373,7 +373,7 @@
 373 : politique
 374 : politique
 375 : politique
-376 : economie
+376 : politique
 377 : economie
 378 : politique
 379 : politique
@@ -439,7 +439,7 @@
 439 : sciences
 440 : sport
 441 : sport
-442 : sport
+442 : politique
 443 : politique
 444 : sport
 445 : economie
@@ -456,7 +456,7 @@
 456 : sport
 457 : sport
 458 : sport
-459 : politique
+459 : sport
 460 : sport
 461 : sport
 462 : economie
@@ -498,9 +498,9 @@
 498 : sport
 499 : politique
 500 : sciences
-sport: 68,10%
-economie: 50,00%
-culture: 79,75%
-politique: 68,64%
-sciences: 80,28%
-MOYENNE: 69,00%
+sport: 68,70%
+economie: 53,40%
+culture: 79,49%
+politique: 68,85%
+sciences: 79,27%
+MOYENNE: 69,40%

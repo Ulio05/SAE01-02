@@ -43,7 +43,7 @@ public class Classification {
     }
 
 
-    public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+    public static int classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
         String res = "";
         ArrayList<Integer> nb_total = new ArrayList<>(categories.size());
         ArrayList<PaireChaineEntier> correct = new ArrayList<>(categories.size());
@@ -53,12 +53,13 @@ public class Classification {
             nb_total.add(0);
             correct.add(new PaireChaineEntier(categories.get(m).getNom(), 0));
         }
-
+        int comp = 0;
         // Traitement des dépêches
         for (int i = 0; i < depeches.size(); i++) {
             ArrayList<PaireChaineEntier> listePaires = new ArrayList<>();
 
             for (int j = 0; j < categories.size(); j++) {
+                comp += categories.get(j).scoreComp(depeches.get(i));
                 listePaires.add(new PaireChaineEntier(categories.get(j).getNom(), categories.get(j).score(depeches.get(i))));
             }
 
@@ -98,6 +99,7 @@ public class Classification {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return comp;
     }
 
 
@@ -177,28 +179,41 @@ public class Classification {
         }
     }
 
-    public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
-        for (Depeche dep: depeches){
+    public static int calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+        // Parcourir chaque Depeche dans la liste
+        int comp = 0;
+        for (Depeche dep : depeches) {
+            // Pour chaque mot dans la Depeche
+            for (String chaine : dep.getMots()) {
+                int inf = 0, sup = dictionnaire.size() - 1;
+                boolean trouve = false;
 
-            for(String chaine : dep.getMots()){
-                int inf = 0, sup = dep.getMots().size(),m;
-                boolean b = false;
-                while(inf<sup && !b){
-                    m = (inf + sup)/2;
-                    if (dictionnaire.get(m).getChaine().compareToIgnoreCase(chaine)==0){
-                        if(dep.getCategorie().compareToIgnoreCase(categorie)==0)
-                            dictionnaire.get(m).setEntiers(dictionnaire.get(m).getEntiers()+1);
-                        else
-                            dictionnaire.get(m).setEntiers(dictionnaire.get(m).getEntiers()-1);
-                        b=true;
-                    }else if (dictionnaire.get(m).getChaine().compareToIgnoreCase(chaine)<0)
-                        inf = m+1;
-                    else
-                        sup = m -1;
+                // Recherche binaire
+                while (inf <= sup && !trouve) {
+                    int m = (inf + sup) / 2;
+                    int comparaison = dictionnaire.get(m).getChaine().compareToIgnoreCase(chaine);
+                    comp ++;
+                    if (comparaison == 0) {
+                        // Si une correspondance est trouvée, mettre à jour le score
+                        if (dep.getCategorie().compareToIgnoreCase(categorie) == 0) {
+                            dictionnaire.get(m).setEntiers(dictionnaire.get(m).getEntiers() + 1);
+                        } else {
+                            dictionnaire.get(m).setEntiers(dictionnaire.get(m).getEntiers() - 1);
+                        }
+                        trouve = true;
+                    } else if (comparaison < 0) {
+                        // Si la chaîne de dictionnaire[m] est inférieure à chaine, on cherche dans la partie supérieure
+                        inf = m + 1;
+                    } else {
+                        // Si la chaîne de dictionnaire[m] est supérieure à chaine, on cherche dans la partie inférieure
+                        sup = m - 1;
+                    }
                 }
             }
         }
+        return comp;
     }
+
 
     public static int poidsPourScore(int score) {
         if (score>5){
@@ -211,10 +226,10 @@ public class Classification {
 //            return 0;
     }
 
-    public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
+    public static int generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
         String res = "";
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches,categorie);
-        //calculScores(depeches,categorie,dictionnaire);
+        int comp = calculScores(depeches,categorie,dictionnaire);
         res += dictionnaire.getFirst().getChaine() + ":"+ dictionnaire.getFirst().getEntiers();
         for (int i = 1;i< dictionnaire.size();i++){
             res += '\n' + dictionnaire.get(i).getChaine() + ":" + poidsPourScore(dictionnaire.get(i).getEntiers());
@@ -227,6 +242,7 @@ public class Classification {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return comp;
 
     }
 
@@ -237,19 +253,6 @@ public class Classification {
         ArrayList<Depeche> depeches = lectureDepeches("./depeches.txt");
         ArrayList<Depeche> test = lectureDepeches("./test.txt");
 
-        /*for (int i = 0; i < depeches.size(); i++) {
-            depeches.get(i).afficher();
-        }
-        Categorie sport = new Categorie("sport");
-        sport.initLexique("lexique/sport.txt");
-//        for (int i = 0; i < cate.getLexique().size(); i++) {
-//            System.out.println(cate.getLexique().get(i));
-//        }
-//        Scanner lec = new Scanner(System.in);
-//        System.out.print("Saisissez un mot : ");
-//        String str = lec.nextLine();
-//        System.out.println(UtilitairePaireChaineEntier.entierPourChaine(sport.getLexique(),str));
-//        System.out.println(sport.score(depeches.getLast()));*/
         ArrayList<PaireChaineEntier> theme = new ArrayList<>();
         theme.add(new PaireChaineEntier("sport",0));
         theme.add(new PaireChaineEntier("economie",0));
@@ -261,17 +264,18 @@ public class Classification {
         long startTime = System.currentTimeMillis();
         for (int i = 0; i<theme.size();i++){
 //            generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
-            generationLexique(test,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
+            int comp = generationLexique(test,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
+            System.out.println("Nombre de comparaison pour le calcule du score de " + theme.get(i).getChaine() + " : " + comp);
         }
         ArrayList<Categorie> cate = new ArrayList<Categorie>();
         for (int i = 0; i<theme.size();i++){
             cate.add(new Categorie(theme.get(i).getChaine()));
             cate.get(i).initLexique("lexiqueIA/" + theme.get(i).getChaine() + ".txt");
         }
-        classementDepeches(depeches,cate,"./resultatIA.txt");
+        int comp1 = classementDepeches(depeches,cate,"./resultatIA.txt");
+        System.out.println("Nombre de comparaisons pour scores : " + comp1);
         long endTime = System.currentTimeMillis();
         System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + " ms");
-        System.out.println(depeches.get(0).getMots().size());
     }
 
 
