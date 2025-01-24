@@ -84,7 +84,7 @@ public class Classification {
         }
     }*/
 
-    public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
+    public static int classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
         String res = "";
         ArrayList<Integer> nb_total = new ArrayList<>(categories.size());
         ArrayList<PaireChaineEntier> correct = new ArrayList<>(categories.size());
@@ -94,12 +94,13 @@ public class Classification {
             nb_total.add(0);
             correct.add(new PaireChaineEntier(categories.get(m).getNom(), 0));
         }
-
+        int comp = 0;
         // Traitement des dépêches
         for (int i = 0; i < depeches.size(); i++) {
             ArrayList<PaireChaineEntier> listePaires = new ArrayList<>();
 
             for (int j = 0; j < categories.size(); j++) {
+                comp += categories.get(j).scoreComp(depeches.get(i));
                 listePaires.add(new PaireChaineEntier(categories.get(j).getNom(), categories.get(j).score(depeches.get(i))));
             }
 
@@ -139,6 +140,7 @@ public class Classification {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return comp;
     }
 
 
@@ -170,10 +172,12 @@ public class Classification {
         return resultat;
     }
 
-    public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+    public static int calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
+        int comp = 0;
         for (Depeche dep: depeches){
             for(String chaine : dep.getMots()){
                 for (int i = 0; i<dictionnaire.size();i++){
+                    comp ++;
                     if (dictionnaire.get(i).getChaine().compareToIgnoreCase(chaine)==0){
                         if(dep.getCategorie().compareToIgnoreCase(categorie)==0)
                             dictionnaire.get(i).setEntiers(dictionnaire.get(i).getEntiers()+1);
@@ -184,6 +188,7 @@ public class Classification {
 
             }
         }
+        return comp;
     }
 
     public static int poidsPourScore(int score) {
@@ -197,10 +202,10 @@ public class Classification {
             return 0;
     }
 
-    public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
+    public static int generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
         String res = "";
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches,categorie);
-        calculScores(depeches,categorie,dictionnaire);
+        int comp = calculScores(depeches,categorie,dictionnaire);
         res += dictionnaire.getFirst().getChaine() + ":"+ dictionnaire.getFirst().getEntiers();
         for (int i = 1;i< dictionnaire.size();i++){
             res += '\n' + dictionnaire.get(i).getChaine() + ":" + poidsPourScore(dictionnaire.get(i).getEntiers());
@@ -212,7 +217,7 @@ public class Classification {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        return comp;
     }
 
     public static void main(String[] args) {
@@ -244,14 +249,16 @@ public class Classification {
 
 
         for (int i = 0; i<theme.size();i++){
-            generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
+            int comp = generationLexique(depeches,theme.get(i).getChaine(),"lexiqueIA/"+theme.get(i).getChaine()+".txt");
+            System.out.println("Comparaison pour CalculScore :" + comp);
         }
         ArrayList<Categorie> cate = new ArrayList<Categorie>();
         for (int i = 0; i<theme.size();i++){
             cate.add(new Categorie(theme.get(i).getChaine()));
             cate.get(i).initLexique("lexiqueIA/" + theme.get(i).getChaine() + ".txt");
         }
-        classementDepeches(depeches,cate,"./resultatIA.txt");
+        int comp1 = classementDepeches(depeches,cate,"./resultatIA.txt");
+        System.out.println("Nombre de comparaison de score" + comp1);
     }
 
 
