@@ -1,78 +1,97 @@
 import java.util.ArrayList;
 
 public class KNN {
-    public static ArrayList<Integer> Ressemble(ArrayList<Depeche> depeches, int j){
+
+    // Méthode pour trouver les indices des dépêches similaires à une dépêche donnée
+    public static ArrayList<Integer> Ressemble(ArrayList<Depeche> depeches, int index) {
         ArrayList<Integer> resultat = new ArrayList<>();
-        Depeche Exemple = depeches.get(j);
-        for (int i = j+1;i<depeches.size();i++){
-            if (KNN.scoreKNN(Exemple,depeches.get(i))>25)
+        Depeche exemple = depeches.get(index);
+
+        for (int i = index + 1; i < depeches.size(); i++) {
+            if (scoreKNN(exemple, depeches.get(i)) > 2) {
                 resultat.add(i);
+            }
         }
         return resultat;
     }
-    public static int scoreKNN(Depeche d, Depeche dep) {
+
+    // Méthode pour calculer un score de similarité entre deux dépêches
+    public static int scoreKNN(Depeche d1, Depeche d2) {
         int score = 0;
-        for (int i = 2; i<d.getMots().size();i++){
-            int j = 0;
-            boolean trouv = false;
-            while(j<dep.getMots().size()&&!trouv){
-                if(d.getMots().get(i).toLowerCase().compareTo(dep.getMots().get(j))==0) {
-                    score += 1;
-                    trouv = true;
+        for (String mot1 : d1.getMots()) {
+            for (String mot2 : d2.getMots()) {
+                if (mot1.equalsIgnoreCase(mot2)) {
+                    score++;
+                    break;
                 }
-                j++;
             }
         }
         return score;
     }
-    public static String MoyCate(ArrayList<Depeche> depeche, ArrayList<PaireChaineEntier> categorie, ArrayList<Integer> vInt){
 
-        for (Integer i : vInt){
-            int ind = UtilitairePaireChaineEntier.entierPourChaine(categorie,depeche.get(i).getCategorie());
-            categorie.get(ind).setEntiers(categorie.get(ind).getEntiers()+1);
-        }
-        return UtilitairePaireChaineEntier.chaineMax(categorie);
-
-    }
-    public static int plusPetitEnt(ArrayList<Integer> vInt){
-        if (!vInt.isEmpty()){
-            int res = vInt.getFirst(), j = 1;
-            while (res + 1 == vInt.get(j)) {
-                res++;
-                j++;
+    // Méthode pour trouver la catégorie la plus représentée
+    public static String MoyCate(ArrayList<Depeche> depeches, ArrayList<PaireChaineEntier> categories, ArrayList<Integer> indices) {
+        for (int i : indices) {
+            int indexCategorie = UtilitairePaireChaineEntier.entierPourChaine(categories, depeches.get(i).getCategorie());
+            if (indexCategorie != -1) {
+                PaireChaineEntier paire = categories.get(indexCategorie);
+                paire.setEntiers(paire.getEntiers() + 1);
             }
-            return res;
         }
-        return 0;
+        return UtilitairePaireChaineEntier.chaineMax(categories);
     }
+
+    // Méthode pour trouver le plus petit entier manquant dans une liste triée
+    public static int plusPetitEnt(ArrayList<Integer> indices) {
+        if (indices == null || indices.isEmpty()) {
+            return 0;
+        }
+
+        for (int i = 0; i < indices.size() - 1; i++) {
+            if (indices.get(i) + 1 != indices.get(i + 1)) {
+                return indices.get(i) + 1;
+            }
+        }
+
+        return indices.get(indices.size() - 1) + 1;
+    }
+
+    // Méthode pour initialiser les catégories uniques des dépêches
     public static ArrayList<PaireChaineEntier> InitCategorie(ArrayList<Depeche> depeches) {
         ArrayList<PaireChaineEntier> categories = new ArrayList<>();
-        for(Depeche unedepeche : depeches){
-            int j = 0;
-            boolean b = false;
-            while (j < categories.size() && !b) {
-                if (categories.get(j).getChaine().compareToIgnoreCase(unedepeche.getCategorie()) == 0)
-                    b = true;
-                j++;
+
+        for (Depeche dep : depeches) {
+            boolean existe = false;
+            for (PaireChaineEntier categorie : categories) {
+                if (categorie.getChaine().equalsIgnoreCase(dep.getCategorie())) {
+                    existe = true;
+                    break;
+                }
             }
-            if (!b)
-                categories.add(new PaireChaineEntier(unedepeche.getCategorie().toLowerCase(),0));
+            if (!existe) {
+                categories.add(new PaireChaineEntier(dep.getCategorie().toLowerCase(), 0));
+            }
         }
         return categories;
     }
-    public static void main(String[] args) {
-        ArrayList<Depeche> depeches = Classification.lectureDepeches("../autre jeu de données/depeches2.txt");
-        ArrayList<PaireChaineEntier> cate = InitCategorie(depeches);
-        long startTime = System.currentTimeMillis();
-        ArrayList<Integer> lst_jum = Ressemble(depeches,0);
+    public static void afficherResultats(ArrayList<Depeche> depeches, ArrayList<PaireChaineEntier> categories) {
+        ArrayList<Integer> listeJumelages = Ressemble(depeches, 0);
 
-        for (int i = 0; i<cate.size();i++){
-            String categorie =  MoyCate(depeches,cate,lst_jum);
-            System.out.println("La catégorie pour les depeches : " + lst_jum + " est " + categorie);
-            lst_jum = Ressemble(depeches,plusPetitEnt(lst_jum));
+        while (!listeJumelages.isEmpty()) {
+            String categorie = MoyCate(depeches, categories, listeJumelages);
+            System.out.println("La catégorie pour les dépêches : " + listeJumelages + " est " + categorie);
+            listeJumelages = Ressemble(depeches, plusPetitEnt(listeJumelages));
         }
+    }
 
+    // Point d'entrée du programme
+    public static void main(String[] args) {
+        ArrayList<Depeche> depeches = Classification.lectureDepeches("./depeches.txt");
+        ArrayList<PaireChaineEntier> categories = InitCategorie(depeches);
+
+        long startTime = System.currentTimeMillis();
+        afficherResultats(depeches, categories);
         long endTime = System.currentTimeMillis();
-        System.out.println("votre saisie a été réalisée en : " + (endTime-startTime) + " ms");
+        System.out.println("Votre traitement a été réalisé en : " + (endTime - startTime) + " ms");
     }
 }

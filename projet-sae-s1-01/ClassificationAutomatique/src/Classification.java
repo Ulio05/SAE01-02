@@ -43,47 +43,6 @@ public class Classification {
     }
 
 
-    /*public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
-        String res = "";
-        ArrayList<Integer> nb_total = new ArrayList<>(5);
-        ArrayList<PaireChaineEntier> correct = new ArrayList<>(5);
-        for (int m = 0; m<categories.size();m++){
-            nb_total.add(0);
-            correct.add(new PaireChaineEntier(categories.get(m).getNom(),0));
-        }
-
-        for(int i = 0; i<depeches.size();i++){
-            ArrayList<PaireChaineEntier> listePaires = new ArrayList<>();
-            for (int j = 0; j<categories.size();j++){
-                listePaires.add(new PaireChaineEntier(categories.get(j).getNom(),categories.get(j).score(depeches.get(i))));
-            }
-            String chaine_max = UtilitairePaireChaineEntier.chaineMax(listePaires);
-            res += depeches.get(i).getId() + " : " + chaine_max + '\n';
-            int k = 0;
-            while(categories.get(k).getNom().compareTo(chaine_max)!=0){
-                k++;
-            }
-            nb_total.set(k,nb_total.get(k)+1);
-            if (chaine_max.compareTo(depeches.get(i).getCategorie())==0)
-                correct.set(k,new PaireChaineEntier(correct.get(k).getChaine(),correct.get(k).getEntiers()+1));
-        }
-        System.out.println(nb_total);
-        System.out.println(correct);
-        for(int l = 0; l<categories.size();l++){
-            PaireChaineEntier set = new PaireChaineEntier(correct.get(l).getChaine(),correct.get(l).getEntiers() / nb_total.get(l)+1);
-            correct.set(l,set);
-            res += categories.get(l).getNom() + ":      " + (correct.get(l)) + "%\n";
-        }
-        res += "MOYENNE:    " + UtilitairePaireChaineEntier.moyenne(correct) + '%';
-        try {
-            FileWriter file = new FileWriter(nomFichier);
-            file.write(res);
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     public static void classementDepeches(ArrayList<Depeche> depeches, ArrayList<Categorie> categories, String nomFichier) {
         String res = "";
         ArrayList<Integer> nb_total = new ArrayList<>(categories.size());
@@ -142,17 +101,12 @@ public class Classification {
     }
 
 
-
-
-
-
-
     public static ArrayList<PaireChaineEntier> initDico(ArrayList<Depeche> depeches, String categorie) {
         ArrayList<PaireChaineEntier> resultat = new ArrayList<>();
         for (Depeche dep : depeches) {
             if (categorie.compareTo(dep.getCategorie().toLowerCase())==0) {
                 for (String chaine: dep.getMots()){
-                    if (UtilitairePaireChaineEntier.indicePourChaine(resultat,chaine) == -1){
+                    if (UtilitairePaireChaineEntier.indicePourChaineOpti(resultat,chaine) == -1){
                         resultat.add(new PaireChaineEntier(chaine,0));
                     }
                 }
@@ -177,9 +131,10 @@ public class Classification {
                     resultat.get(ind).setEntiers(resultat.get(ind).getEntiers()+-1);
             }
         }
-        triFusion(resultat,0,resultat.size()-1);
+        //triFusion(resultat,0,resultat.size()-1);
         return resultat;
     }
+
     public static void fusionTabGTabD(ArrayList<PaireChaineEntier> vInt, int inf, int m, int sup) {
         ArrayList<PaireChaineEntier> temp = new ArrayList<>();
         int p1 = inf, p2 = m + 1;
@@ -222,13 +177,6 @@ public class Classification {
         }
     }
 
-
-    /*public static void InitDicoScores(ArrayList<Depeche> depeches, String categorie){
-        for(Depeche dep : depeches){
-            for (String chaine: )
-        }
-    }*/
-
     public static void calculScores(ArrayList<Depeche> depeches, String categorie, ArrayList<PaireChaineEntier> dictionnaire) {
         for (Depeche dep: depeches){
 
@@ -266,7 +214,7 @@ public class Classification {
     public static void generationLexique(ArrayList<Depeche> depeches, String categorie, String nomFichier) {
         String res = "";
         ArrayList<PaireChaineEntier> dictionnaire = initDico(depeches,categorie);
-        calculScores(depeches,categorie,dictionnaire);
+        //calculScores(depeches,categorie,dictionnaire);
         res += dictionnaire.getFirst().getChaine() + ":"+ dictionnaire.getFirst().getEntiers();
         for (int i = 1;i< dictionnaire.size();i++){
             res += '\n' + dictionnaire.get(i).getChaine() + ":" + poidsPourScore(dictionnaire.get(i).getEntiers());
@@ -280,11 +228,6 @@ public class Classification {
             e.printStackTrace();
         }
 
-    }
-
-    public static ArrayList<String> découverteClasse(ArrayList<Depeche> depeches){
-        ArrayList<String> resultat = new ArrayList<>();
-        return resultat;
     }
 
     public static void main(String[] args) {

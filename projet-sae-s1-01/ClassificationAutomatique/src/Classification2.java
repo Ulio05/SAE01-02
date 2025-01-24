@@ -197,9 +197,9 @@ public class Classification2 {
     }
 
     public static int poidsPourScore(int score) {
-        if (score>5){
+        if (score>4){
             return 3;
-        } else if (score>2) {
+        } else if (score>0) {
             return 2;
         }else
             return 1;

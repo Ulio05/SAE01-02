@@ -5,7 +5,7 @@
 005 : economie
 006 : economie
 007 : sciences
-008 : sciences
+008 : economie
 009 : economie
 010 : economie
 011 : sciences
@@ -27,7 +27,7 @@
 027 : economie
 028 : sport
 029 : economie
-030 : sciences
+030 : economie
 031 : sciences
 032 : economie
 033 : sciences
@@ -430,7 +430,7 @@
 430 : sport
 431 : sport
 432 : sport
-433 : politique
+433 : sport
 434 : sport
 435 : economie
 436 : sport
@@ -439,7 +439,7 @@
 439 : sciences
 440 : sport
 441 : sport
-442 : politique
+442 : sport
 443 : politique
 444 : sport
 445 : economie
@@ -498,9 +498,9 @@
 498 : sport
 499 : politique
 500 : sciences
-sport: 67,54%
-economie: 50,88%
+sport: 68,10%
+economie: 50,00%
 culture: 79,75%
-politique: 67,50%
-sciences: 80,82%
-MOYENNE: 68,60%
+politique: 68,64%
+sciences: 80,28%
+MOYENNE: 69,00%
